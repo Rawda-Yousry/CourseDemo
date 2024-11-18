@@ -1,0 +1,44 @@
+<div class="mb-3">
+    <label for="prdCat" class="form-label">Category</label>
+    <select class="form-select" name="" id="prdCat" [(ngModel)]="selectedCategoryId">
+        <option *ngFor="let cat of catList" [value]="cat.id">
+            {{cat.name}}
+        </option>
+    </select>
+</div>
+<div>
+    [To be removed] For Test:
+    {{selectedCategoryId}}
+</div>
+
+
+<hr>
+<table style="width: 100%;">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Image</th>
+            <th>Av. Quantity</th>
+            <th>Price</th>
+            <th>Needed Quantity</th>
+            <th>Buy</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let prd of prdList" [class.d-none]="selectedCategoryId != prd.categoryId">
+            <td>{{prd.id}}</td>
+            <td>{{prd.name}}</td>
+            <td>
+                <img [src]="prd.imgURL" alt="">
+            </td>
+            <td>{{prd.quantity}}</td>
+            <td>{{prd.price}}</td>
+            <td><input #itemsCount type="number" name="" id=""></td>
+            <td><button class="btn btn-secondary" (click)="buy(prd.price, itemsCount.value)">Buy</button></td>
+
+        </tr>
+    </tbody>
+</table>
+<hr>
+<h3>Order price: {{orderTotalPrice}}</h3>

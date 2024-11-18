@@ -1,0 +1,19 @@
+<!-- Interpolation -->
+<!-- <img src="{{storeInfo.imgURL}}" alt=""> -->
+
+<!-- Property Binding -->
+<img [src]="storeInfo.imgURL" alt="" *ngIf="isImgShown">
+<button class="btn btn-primary" (click)="toggleImg()">
+    Toggle Image
+</button>
+<h1>
+    {{storeInfo.name}}
+</h1>
+<h3>
+    Our Branches
+</h3>
+<ul>
+    <li *ngFor="let item of storeInfo.branches">
+        {{item}}
+    </li>
+</ul>
