@@ -1,44 +1,51 @@
-<div class="mb-3">
-    <label for="prdCat" class="form-label">Category</label>
-    <select class="form-select" name="" id="prdCat" [(ngModel)]="selectedCategoryId">
-        <option *ngFor="let cat of catList" [value]="cat.id">
-            {{cat.name}}
-        </option>
-    </select>
-</div>
-<div>
-    [To be removed] For Test:
-    {{selectedCategoryId}}
-</div>
-
-
 <hr>
 <table style="width: 100%;">
     <thead>
         <tr>
-            <th>ID</th>
+            <th>No. </th>
             <th>Name</th>
             <th>Image</th>
             <th>Av. Quantity</th>
-            <th>Price</th>
+            <th>Price in EGP</th>
+            <th>Price in USD</th>
             <th>Needed Quantity</th>
             <th>Buy</th>
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let prd of prdList" [class.d-none]="selectedCategoryId != prd.categoryId">
-            <td>{{prd.id}}</td>
+        <tr *ngFor="let prd of prdCatList; let i= index"
+            [style.background-color]="prd.quantity == 0 ? 'gray': 'lightgray'">
+            <td>{{i+1}}</td>
             <td>{{prd.name}}</td>
             <td>
-                <img [src]="prd.imgURL" alt="">
+                <!-- This will read from red from ts -->
+                <!-- <img [LightBox]="red" [src]="prd.imgURL" alt=""> -->
+
+                <img LightBox="red" [src]="prd.imgURL" alt="">
             </td>
-            <td>{{prd.quantity}}</td>
-            <td>{{prd.price}}</td>
-            <td><input #itemsCount type="number" name="" id=""></td>
-            <td><button class="btn btn-secondary" (click)="buy(prd.price, itemsCount.value)">Buy</button></td>
+            <td>
+                <!-- <div *ngIf="prd.quantity != 0; else outOfStock">{{prd.quantity}}</div>
+                <ng-template #outOfStock>Out of Stock</ng-template> -->
+                <div [ngSwitch]="prd.quantity">
+                    <div *ngSwitchCase="0">
+                        Out of Stock
+                    </div>
+                    <div *ngSwitchDefault>
+                        {{prd.quantity}}
+                    </div>
+                </div>
+            </td>
+            <td>{{prd.price | currency:"EUR" : "code"}}</td>
+            <td>{{prd.price | USDtoEGP:10 | currency: 'EGP'}}</td>
+            <td><input #itemsCount type="number" name="" id="" [max]="prd.quantity"></td>
+            <td><button class="btn btn-secondary" (click)="buyToCart({productName: prd.name,
+                productPrice: prd.price,
+                productQuantity: itemsCount.value})">Buy</button></td>
 
         </tr>
     </tbody>
 </table>
-<hr>
-<h3>Order price: {{orderTotalPrice}}</h3>
+
+
+
+<!-- You should add the total price for order here -->

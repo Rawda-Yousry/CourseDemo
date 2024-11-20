@@ -1,0 +1,68 @@
+<h2>Create Your Order </h2>
+<div class="mb-3">
+    <label for="prdCat" class="form-label">Category</label>
+    <select class="form-select" name="" id="prdCat" [(ngModel)]="selectedCategoryId">
+        <option *ngFor="let cat of catList" [value]="cat.id">
+            {{cat.name}}
+        </option>
+    </select>
+</div>
+<hr>
+<div class="bg-warning">
+    <app-product-list [sentCatId]="selectedCategoryId" (itemBought)="onItemBought($event)">
+
+    </app-product-list>
+</div>
+<hr>
+<h3>
+    Your Cart
+</h3>
+
+<table style="width: 100%;">
+    <thead>
+        <tr>
+            <th>No. </th>
+            <th>Product Name</th>
+            <th>Price</th>
+            <th>Count</th>
+            <th>Total Price Product</th>
+            <th>
+                Remove
+            </th>
+        </tr>
+    </thead>
+    <tr *ngFor=" let prd of prdsBought; let i=index">
+        <td>
+            {{i+1}}
+        </td>
+        <td>
+            {{prd.productName}}
+        </td>
+        <td>
+            {{prd.productPrice}}
+        </td>
+        <td>
+            <input #itemCount type="number" (change)="countChanged(prd.productName, itemCount.value)">
+        </td>
+        <td>
+            {{prd.productPrice * prd.productQuantity}}
+        </td>
+        <td>
+            <button (click)="removeRow(prd.productName)">
+                Remove
+            </button>
+        </td>
+
+    </tr>
+</table>
+<div>
+    <h3>Enter Your Name:</h3>
+    <input type="text" class="form-control" #clientInpRef>
+</div>
+<h3>
+    Total Price : {{orderTotalPrice}}
+</h3>
+<hr>
+<button (click)="completeOrder()">
+    place order
+</button>
